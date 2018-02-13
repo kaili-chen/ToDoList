@@ -7,13 +7,16 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int REQ_CODE_ADD_TASK = 0000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
-    public void addNewTask(View view) {
-        Intent newT = new Intent(this, AddTaskActivity.class);
+    public void newTask(View view) {
+        Intent intent = new Intent(this, AddTaskActivity.class);
+        startActivityForResult(intent, REQ_CODE_ADD_TASK);
     }
 }
