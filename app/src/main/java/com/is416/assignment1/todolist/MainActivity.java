@@ -37,12 +37,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddTaskActivity.class);
         startActivityForResult(intent, REQ_CODE_ADD_TASK);
     }
-
+    
     private void readFromFile() {
 
-        Scanner rd = new Scanner(getResources().openRawResource(R.raw.tasks));
+        Scanner rd = null;
 
         try {
+            rd = new Scanner(openFileInput("tasks.txt"));
+
             while (rd.hasNextLine()) {
                 String curLn = rd.nextLine();
                 tasks.add(curLn);
