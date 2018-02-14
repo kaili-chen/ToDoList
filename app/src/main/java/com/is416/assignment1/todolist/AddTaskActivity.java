@@ -8,7 +8,6 @@ import android.widget.EditText;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.Scanner;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -19,7 +18,6 @@ public class AddTaskActivity extends AppCompatActivity {
         setContentView(R.layout.add_task_activity);
 
         Intent intent = getIntent();
-        String s = intent.getDataString();
         EditText et = findViewById(R.id.new_task);
 
     }
@@ -35,7 +33,6 @@ public class AddTaskActivity extends AppCompatActivity {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Scanner outscan = new Scanner(openFileInput("tasks.txt"));
 
         //go back to home page
         Intent returnToHome = new Intent();
