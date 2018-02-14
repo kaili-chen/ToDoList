@@ -89,36 +89,19 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(reqCode, resultCode, data);
 
          if (reqCode == REQ_CODE_ADD_TASK) {
-            String newTask = data.getStringExtra("newTask");
-//            tasks.add(newTask);
-            Toast.makeText(this, "new task added", Toast.LENGTH_SHORT).show();
-            adapter.add(newTask);
-            adapter.notifyDataSetChanged();
+             if (resultCode == RESULT_OK) {
+                String newTask = data.getStringExtra("newTask");
+                Toast.makeText(this, "new task added", Toast.LENGTH_SHORT).show();
+                adapter.add(newTask);
+                adapter.notifyDataSetChanged();
+            }
         } else if (reqCode == REQ_CODE_VIEW_SINGLE_TASK) {
-            String original = data.getStringExtra("original");
-            String edited = data.getStringExtra("edited");
-            Toast.makeText(this, "task edited", Toast.LENGTH_SHORT).show();
-            adapter.remove(original);
-            adapter.add(edited);
-            adapter.notifyDataSetChanged();
-
-             try {
-                 PrintStream ps = new PrintStream(openFileOutput("tasks.txt", MODE_PRIVATE));
-                 for (String s : tasks) {
-                     ps.println(s);
-                 }
-                 ps.close();
-             } catch (FileNotFoundException e) {
-                 e.printStackTrace();
-             }
-
-            adapter.notifyDataSetChanged();
-        } else if (reqCode == REQ_CODE_DELETE_TASK) {
-             String deleted = data.getStringExtra("deletedTask");
-
-             if(deleted.trim().length() != 0) {
-                 Toast.makeText(this, "task deleted", Toast.LENGTH_SHORT).show();
-                 adapter.remove(deleted);
+             if (resultCode == RESULT_OK) {
+                 String original = data.getStringExtra("original");
+                 String edited = data.getStringExtra("edited");
+                 Toast.makeText(this, "task edited", Toast.LENGTH_SHORT).show();
+                 adapter.remove(original);
+                 adapter.add(edited);
                  adapter.notifyDataSetChanged();
 
                  try {
@@ -130,7 +113,29 @@ public class MainActivity extends AppCompatActivity {
                  } catch (FileNotFoundException e) {
                      e.printStackTrace();
                  }
+
+                 adapter.notifyDataSetChanged();
              }
-        }
+        } else if (reqCode == REQ_CODE_DELETE_TASK) {
+             if (resultCode == RESULT_OK) {
+                 String deleted = data.getStringExtra("deletedTask");
+
+                 if (deleted.trim().length() != 0) {
+                     Toast.makeText(this, "task deleted", Toast.LENGTH_SHORT).show();
+                     adapter.remove(deleted);
+                     adapter.notifyDataSetChanged();
+
+                     try {
+                         PrintStream ps = new PrintStream(openFileOutput("tasks.txt", MODE_PRIVATE));
+                         for (String s : tasks) {
+                             ps.println(s);
+                         }
+                         ps.close();
+                     } catch (FileNotFoundException e) {
+                         e.printStackTrace();
+                     }
+                 }
+             }
+         }
     }
 }
